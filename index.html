@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRI-DULCE | Postres Helados & Tortas Frías Sin Horno</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: {
+                            50: '#FDFBF7',
+                            100: '#F9F5EC',
+                            200: '#F3ECE0',
+                        },
+                        rosepastel: {
+                            100: '#FCEEEB',
+                            200: '#F9DDD7',
+                            400: '#E8A598',
+                            600: '#D17B6B',
+                        },
+                        choco: {
+                            400: '#8C675B',
+                            700: '#4A342E',
+                            900: '#2A1A16',
+                        },
+                        goldaccent: '#D4AF37'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Glassmorphism effects & Custom Styles */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .glass-nav {
+            background: rgba(253, 251, 247, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .aesthetic-shadow {
+            box-shadow: 0 10px 30px -10px rgba(140, 103, 91, 0.12);
+        }
+        .aesthetic-shadow-hover:hover {
+            box-shadow: 0 20px 35px -10px rgba(140, 103, 91, 0.22);
+            transform: translateY(-4px);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F9F5EC;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E8A598;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-cream-50 text-choco-900 font-sans min-h-screen flex flex-col selection:bg-rosepastel-200 selection:text-choco-900">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 glass-nav border-b border-rosepastel-100/60 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-rosepastel-400 to-rosepastel-200 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+                    <i class="fa-solid font-serif text-xl">F</i>
+                </div>
+                <div>
+                    <span class="font-serif text-2xl sm:text-3xl font-bold tracking-wider text-choco-900 block leading-none">FRI-DULCE</span>
+                    <span class="text-[10px] uppercase tracking-widest text-rosepastel-600 font-semibold block mt-0.5">Postres Helados Artesanales</span>
+                </div>
+            </a>
+
+            <!-- Search Bar (Desktop) -->
+            <div class="hidden md:flex items-center relative w-72">
+                <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Buscar tu postre favorito..." 
+                    class="w-full pl-10 pr-4 py-2 rounded-full bg-cream-100 border border-rosepastel-200/80 text-sm focus:outline-none focus:ring-2 focus:ring-rosepastel-400 transition-all placeholder:text-choco-400/60">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-choco-400 text-sm"></i>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-4">
+                <button onclick="toggleCartDrawer()" class="relative p-3 rounded-full bg-rosepastel-100 hover:bg-rosepastel-200 text-choco-700 transition-colors flex items-center justify-center" aria-label="Ver carrito">
+                    <i class="fa-solid fa-basket-shopping text-lg"></i>
+                    <span id="cartBadge" class="absolute -top-1 -right-1 bg-rosepastel-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Search Bar Mobile -->
+        <div class="md:hidden px-4 pb-3">
+            <div class="relative w-full">
+                <input type="text" id="searchInputMobile" onkeyup="filterProductsMobile()" placeholder="Buscar postres..." 
+                    class="w-full pl-10 pr-4 py-2 rounded-full bg-cream-100 border border-rosepastel-200/80 text-sm focus:outline-none focus:ring-2 focus:ring-rosepastel-400 placeholder:text-choco-400/60">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-choco-400 text-sm"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden pt-12 pb-16 bg-gradient-to-b from-rosepastel-100/50 via-cream-50 to-cream-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <span class="inline-block px-4 py-1.5 rounded-full bg-white/80 border border-rosepastel-200 text-rosepastel-600 text-xs font-semibold tracking-wider uppercase mb-4 shadow-sm">
+                ✨ 100% Sin Horno • Servidos Frios y Frescos ✨
+            </span>
+            <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold text-choco-900 leading-tight mb-4">
+                Dulzura helada para <br class="hidden sm:inline"><span class="italic font-normal text-rosepastel-600">momentos inolvidables</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-choco-400 text-base sm:text-lg mb-8 leading-relaxed font-light">
+                Descubre nuestra exclusiva colección de pavés cremosos, mousses ligeros, cheesecakes fríos y carlotas cítricas. Preparamos cada postre al momento para tu deleite.
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-4 text-xs sm:text-sm font-medium text-choco-700">
+                <div class="flex items-center gap-2 bg-white/60 px-4 py-2 rounded-full border border-rosepastel-100">
+                    <i class="fa-solid fa-snowflake text-rosepastel-400"></i> Listos para disfrutar
+                </div>
+                <div class="flex items-center gap-2 bg-white/60 px-4 py-2 rounded-full border border-rosepastel-100">
+                    <i class="fa-brands fa-whatsapp text-emerald-500"></i> Pedidos inmediatos
+                </div>
+            </div>
+        </div>
+        <!-- Decorative blurred circles -->
+        <div class="absolute -top-12 -left-12 w-64 h-64 bg-rosepastel-200/40 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute top-1/2 -right-12 w-80 h-80 bg-goldaccent/10 rounded-full blur-3xl pointer-events-none"></div>
+    </section>
+
+    <!-- Main Content / Catalog -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+        
+        <!-- Category Filters -->
+        <div class="flex items-center justify-start md:justify-center gap-2 sm:gap-3 overflow-x-auto pb-4 mb-8 no-scrollbar scroll-smooth">
+            <button onclick="filterCategory('todos')" class="category-btn active px-5 py-2.5 rounded-full text-sm font-medium transition-all whitespace-nowrap bg-choco-900 text-white shadow-md" data-category="todos">
+                Todos los Postres
+            </button>
+            <button onclick="filterCategory('paves')" class="category-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all whitespace-nowrap bg-white text-choco-700 border border-rosepastel-200 hover:border-rosepastel-400" data-category="paves">
+                Pavés Tradicionales
+            </button>
+            <button onclick="filterCategory('cheesecakes')" class="category-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all whitespace-nowrap bg-white text-choco-700 border border-rosepastel-200 hover:border-rosepastel-400" data-category="cheesecakes">
+                Cheesecakes Fríos
+            </button>
+            <button onclick="filterCategory('mousses')" class="category-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all whitespace-nowrap bg-white text-choco-700 border border-rosepastel-200 hover:border-rosepastel-400" data-category="mousses">
+                Mousses & Suaves
+            </button>
+            <button onclick="filterCategory('carlotas')" class="category-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all whitespace-nowrap bg-white text-choco-700 border border-rosepastel-200 hover:border-rosepastel-400" data-category="carlotas">
+                Carlotas & Pies
+            </button>
+            <button onclick="filterCategory('especiales')" class="category-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all whitespace-nowrap bg-white text-choco-700 border border-rosepastel-200 hover:border-rosepastel-400" data-category="especiales">
+                Gelatinas & Flanes
+            </button>
+        </div>
+
+        <!-- Dessert Grid -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+            <!-- Dynamic products will be rendered here by JS -->
+        </div>
+
+        <!-- Empty state -->
+        <div id="noResults" class="hidden text-center py-16">
+            <i class="fa-solid fa-cookie-bite text-5xl text-rosepastel-400 mb-4 animate-bounce"></i>
+            <h3 class="font-serif text-2xl font-bold text-choco-900">No encontramos ese postre</h3>
+            <p class="text-choco-400 text-sm mt-1">Intenta buscar con otro nombre o explora nuestras categorías.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-choco-900 text-cream-100 pt-12 pb-8 mt-16 border-t border-choco-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div>
+                <h3 class="font-serif text-2xl font-bold text-white mb-2">FRI-DULCE</h3>
+                <p class="text-cream-200/70 text-sm leading-relaxed mb-4">
+                    Especialistas en la preparación artesanal de tortas frías, pavés y postres helados sin horno. Elaborados diariamente con insumos de primera calidad.
+                </p>
+                <div class="flex gap-3 text-rosepastel-200">
+                    <a href="#" class="w-9 h-9 rounded-full bg-choco-700 flex items-center justify-center hover:bg-rosepastel-400 hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-choco-700 flex items-center justify-center hover:bg-rosepastel-400 hover:text-white transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-choco-700 flex items-center justify-center hover:bg-rosepastel-400 hover:text-white transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-semibold text-white mb-3 text-sm uppercase tracking-wider">Atención y Pedidos</h4>
+                <ul class="text-sm text-cream-200/80 space-y-2">
+                    <li class="flex items-center gap-2"><i class="fa-brands fa-whatsapp text-emerald-400"></i> WhatsApp: +591 63374340</li>
+                    <li class="flex items-center gap-2"><i class="fa-regular fa-clock text-rosepastel-200"></i> Lunes a Domingo: 09:00 - 20:00</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-location-dot text-rosepastel-200"></i> Envíos a domicilio y entregas programadas</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-white mb-3 text-sm uppercase tracking-wider">Garantía FRI-DULCE</h4>
+                <p class="text-sm text-cream-200/70 leading-relaxed">
+                    Nuestros postres se mantienen en refrigeración continua para conservar la textura cremoso-helada perfecta. Recomendamos consumir fríos.
+                </p>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 border-t border-choco-700/60 text-center text-xs text-cream-200/50">
+            &copy; 2026 FRI-DULCE Postres Helados. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <!-- PRODUCT DETAIL MODAL -->
+    <div id="productModal" class="fixed inset-0 z-50 flex items-center justify-center bg-choco-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl overflow-hidden relative transform scale-95 transition-transform duration-300 border border-rosepastel-100" id="modalContent">
+            
+            <!-- Close button -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-choco-900 flex items-center justify-center shadow-md transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <!-- Image Container -->
+                <div class="relative h-64 md:h-full bg-cream-100 flex items-center justify-center overflow-hidden">
+                    <img id="modalImage" src="" alt="" class="w-full h-full object-cover">
+                    <span id="modalBadge" class="absolute top-4 left-4 bg-rosepastel-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                        Sin Horno
+                    </span>
+                </div>
+
+                <!-- Product Details & Form -->
+                <div class="p-6 md:p-8 flex flex-col justify-between">
+                    <div>
+                        <span id="modalCategory" class="text-xs uppercase font-semibold tracking-wider text-rosepastel-600 block mb-1">Categoría</span>
+                        <h2 id="modalTitle" class="font-serif text-2xl sm:text-3xl font-bold text-choco-900 mb-2">Nombre del Postre</h2>
+                        <p id="modalDescription" class="text-choco-400 text-xs sm:text-sm leading-relaxed mb-4">
+                            Descripción detallada del postre...
+                        </p>
+
+                        <!-- Portion Selector -->
+                        <div class="mb-5">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-choco-700 mb-2">Selecciona la Presentación:</label>
+                            <div class="grid grid-cols-3 gap-2" id="portionSelector">
+                                <button type="button" onclick="selectPortion('Porción', 0)" class="portion-btn active border-2 border-rosepastel-400 bg-rosepastel-100 text-choco-900 p-2 rounded-xl text-center text-xs font-medium transition-all">
+                                    <span class="block font-bold">Porción</span>
+                                    <span class="text-[10px] text-choco-400" id="pricePorcion">Bs. 0</span>
+                                </button>
+                                <button type="button" onclick="selectPortion('Mediana', 15)" class="portion-btn border border-rosepastel-200 hover:border-rosepastel-400 p-2 rounded-xl text-center text-xs font-medium transition-all">
+                                    <span class="block font-bold">Mediana (4-6)</span>
+                                    <span class="text-[10px] text-choco-400" id="priceMediana">Bs. 0</span>
+                                </button>
+                                <button type="button" onclick="selectPortion('Familiar', 35)" class="portion-btn border border-rosepastel-200 hover:border-rosepastel-400 p-2 rounded-xl text-center text-xs font-medium transition-all">
+                                    <span class="block font-bold">Familiar (8-10)</span>
+                                    <span class="text-[10px] text-choco-400" id="priceFamiliar">Bs. 0</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quantity Selector -->
+                        <div class="flex items-center justify-between mb-6 bg-cream-100 p-3 rounded-2xl">
+                            <span class="text-xs font-bold text-choco-700 uppercase tracking-wider">Cantidad:</span>
+                            <div class="flex items-center gap-3">
+                                <button onclick="updateModalQuantity(-1)" class="w-8 h-8 rounded-full bg-white text-choco-900 shadow-sm flex items-center justify-center font-bold hover:bg-rosepastel-100 transition-colors">-</button>
+                                <span id="modalQuantity" class="font-bold text-base text-choco-900 w-4 text-center">1</span>
+                                <button onclick="updateModalQuantity(1)" class="w-8 h-8 rounded-full bg-white text-choco-900 shadow-sm flex items-center justify-center font-bold hover:bg-rosepastel-100 transition-colors">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add to Cart Button -->
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs text-choco-400 uppercase font-semibold">Precio Total:</span>
+                            <span id="modalTotalPrice" class="font-serif text-2xl font-bold text-rosepastel-600">Bs. 0</span>
+                        </div>
+                        <button onclick="addToCartFromModal()" class="w-full bg-choco-900 hover:bg-rosepastel-600 text-white font-medium py-3.5 px-6 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-choco-900/10">
+                            <i class="fa-solid fa-basket-shopping"></i> Agregar al Pedido
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART SLIDE-OVER DRAWER -->
+    <div id="cartDrawer" class="fixed inset-0 z-50 pointer-events-none transition-opacity duration-300">
+        <!-- Backdrop -->
+        <div id="cartBackdrop" onclick="toggleCartDrawer()" class="absolute inset-0 bg-choco-900/50 backdrop-blur-xs opacity-0 transition-opacity duration-300"></div>
+
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div id="cartPanel" class="w-screen max-w-md bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col pointer-events-auto">
+                
+                <!-- Drawer Header -->
+                <div class="p-6 bg-cream-100 border-b border-rosepastel-100 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-basket-shopping text-rosepastel-600 text-xl"></i>
+                        <h2 class="font-serif text-2xl font-bold text-choco-900">Tu Pedido</h2>
+                    </div>
+                    <button onclick="toggleCartDrawer()" class="p-2 text-choco-400 hover:text-choco-900 rounded-full hover:bg-cream-200 transition-colors">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Drawer Body / Item List -->
+                <div class="flex-1 overflow-y-auto p-6 space-y-4" id="cartItemsContainer">
+                    <!-- Dynamic cart items -->
+                </div>
+
+                <!-- Empty Cart State -->
+                <div id="emptyCartMessage" class="hidden flex-1 flex flex-col items-center justify-center p-6 text-center">
+                    <div class="w-20 h-20 rounded-full bg-rosepastel-100 flex items-center justify-center text-rosepastel-400 text-3xl mb-4">
+                        <i class="fa-solid fa-ice-cream"></i>
+                    </div>
+                    <p class="font-serif text-xl font-bold text-choco-900 mb-1">Tu carrito está vacío</p>
+                    <p class="text-xs text-choco-400">Agrega deliciosas tortas frías para realizar tu pedido por WhatsApp.</p>
+                </div>
+
+                <!-- Order Form & Checkout Footer -->
+                <div id="cartFooter" class="p-6 bg-cream-50 border-t border-rosepastel-100 space-y-4">
+                    
+                    <!-- Customer Details Form -->
+                    <div class="space-y-3">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-choco-700">Datos para la Entrega</h3>
+                        <div>
+                            <input type="text" id="custName" placeholder="Tu Nombre Completo *" required 
+                                class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-rosepastel-200 focus:ring-2 focus:ring-rosepastel-400 focus:outline-none bg-white">
+                        </div>
+                        <div>
+                            <input type="text" id="custAddress" placeholder="Dirección de entrega / Ubicación *" required 
+                                class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-rosepastel-200 focus:ring-2 focus:ring-rosepastel-400 focus:outline-none bg-white">
+                        </div>
+                        <div>
+                            <select id="custPayment" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-rosepastel-200 focus:ring-2 focus:ring-rosepastel-400 focus:outline-none bg-white text-choco-700">
+                                <option value="Efectivo contra entrega">Pago: Efectivo contra entrega</option>
+                                <option value="Transferencia / QR">Pago: Transferencia bancaria / QR</option>
+                            </select>
+                        </div>
+                        <div>
+                            <textarea id="custNote" placeholder="Notas especiales (opcional): ej. 'Para cumpleaños', 'Salsa aparte'" rows="2" 
+                                class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-rosepastel-200 focus:ring-2 focus:ring-rosepastel-400 focus:outline-none bg-white resize-none"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Summary calculation -->
+                    <div class="pt-2 border-t border-rosepastel-200/60 space-y-1.5">
+                        <div class="flex justify-between text-sm text-choco-700">
+                            <span>Subtotal:</span>
+                            <span id="cartSubtotal" class="font-medium">Bs. 0</span>
+                        </div>
+                        <div class="flex justify-between text-base font-bold text-choco-900 pt-1">
+                            <span>Total Estimado:</span>
+                            <span id="cartTotal" class="text-rosepastel-600 font-serif text-2xl">Bs. 0</span>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp Checkout Button -->
+                    <button onclick="sendWhatsAppOrder()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3.5 px-4 rounded-2xl transition-all flex items-center justify-center gap-2.5 shadow-lg shadow-emerald-600/20 text-sm">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> Confirmar Pedido por WhatsApp
+                    </button>
+                    <p class="text-[11px] text-center text-choco-400">El pedido se enviará directamente al número <strong>63374340</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification System -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-choco-900 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toastMessage" class="text-sm font-medium">Producto agregado correctamente</span>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // 19 Required Products Data with stylized high quality dessert images
+        const products = [
+            {
+                id: 1,
+                name: "Tiramisú Tradicional",
+                category: "mousses",
+                price: 25,
+                image: "/home/JG/Descargas/png1",
+                description: "Cremoso postre frío italiano elaborado con capas de bizcocho embebido en café espresso, licor suave y una rica crema de queso mascarpone espolvoreada con cacao amargo."
+            },
+            {
+                id: 2,
+                name: "Torta Helada Clásica",
+                category: "paves",
+                price: 22,
+                image: "/home/JG/Descargas/png2",
+                description: "Clásica torta helada en capas con textura suave, crema batida chantilly y bizcocho húmedo helado, perfecta para refrescar cualquier celebración."
+            },
+            {
+                id: 3,
+                name: "Mousse de Chocolate",
+                category: "mousses",
+                price: 20,
+                image: "/home/JG/Descargas/png3",
+                description: "Ligera, esponjosa y ultracremosa mousse preparada con chocolate semi-amargo de alta calidad y cubierta con finas virutas de chocolate."
+            },
+            {
+                id: 4,
+                name: "Postre Helado de Oreo",
+                category: "carlotas",
+                price: 22,
+                image: "/home/JG/Descargas/png4",
+                description: "Deliciosa combinación de galletas Oreo trituradas en capas con suave crema helada de leche condensada y trozos crujientes."
+            },
+            {
+                id: 5,
+                name: "Cheesecake Clásico (Sin Horno)",
+                category: "cheesecakes",
+                price: 24,
+                image: "/home/JG/Descargas/png5",
+                description: "Tarta de queso fría suave sobre una crujiente base de galleta de mantequilla, con un toque sutil de vainilla natural."
+            },
+            {
+                id: 6,
+                name: "Pavé de Limón",
+                category: "paves",
+                price: 18,
+                image: "/home/JG/Descargas/png6",
+                description: "Postre refrescante brasileño intercalado con galletas dulzura y crema suave cítrica de limón, decorado con ralladura fresca."
+            },
+            {
+                id: 7,
+                name: "Pavé de Chocolate Tradicional",
+                category: "paves",
+                price: 20,
+                image: "/home/JG/Descargas/png7",
+                description: "El más querido postre frío en capas: crema de chocolate artesanal, galletas humedecidas en leche y cobertura de ganache brillante."
+            },
+            {
+                id: 8,
+                name: "Pavé de Durazno",
+                category: "paves",
+                price: 22,
+                image: "/home/JG/Descargas/png8",
+                description: "Capas de crema de vainilla fría, galletas suaves y trozos jugosos de durazno en almíbar. Ligero y delicado al paladar."
+            },
+            {
+                id: 9,
+                name: "Torta Helada de Limón",
+                category: "paves",
+                price: 20,
+                image: "/home/JG/Descargas/png9",
+                description: "Torta helada de estructura ligera y ácida, con un balance perfecto entre el dulce de la leche condensada y el zumo natural de limón."
+            },
+            {
+                id: 10,
+                name: "Mousse de Maracuyá",
+                category: "mousses",
+                price: 22,
+                image: "/home/JG/Descargas/png10",
+                description: "Mousse tropical ultra aireada de fruta de la pasión (maracuyá), bañada con una jalea artesanal brillante con semillas."
+            },
+            {
+                id: 11,
+                name: "Cheesecake de Fresa",
+                category: "cheesecakes",
+                price: 25,
+                image: "/home/JG/Descargas/png11",
+                description: "Nuestro delicioso cheesecake frío cubierto con una abundante mermelada casera de fresas frescas y frutos rojos."
+            },
+            {
+                id: 12,
+                name: "Cheesecake de Dulce de Leche",
+                category: "cheesecakes",
+                price: 25,
+                image: "/home/JG/Descargas/png12",
+                description: "Suave mezcla de queso crema y manjar / dulce de leche artesanal sobre base crocante, decorado con hilos de caramelo."
+            },
+            {
+                id: 13,
+                name: "Cheesecake de Nutella",
+                category: "cheesecakes",
+                price: 28,
+                image: "/home/JG/Descargas/png13",
+                description: "Irresistible pastel frío de queso combinado con auténtica avellana Nutella, base de galleta de chocolate y avellanas picadas."
+            },
+            {
+                id: 14,
+                name: "Pavé de Frutas Rojas",
+                category: "paves",
+                price: 24,
+                image: "/home/JG/Descargas/png14",
+                description: "Capas de crema blanca fría, galletas finas y compota natural de frambuesas, moras y arándanos frescos."
+            },
+            {
+                id: 15,
+                name: "Pai / Pie de Oreo Sin Horno",
+                category: "carlotas",
+                price: 23,
+                image: "/home/JG/Descargas/png15",
+                description: "Torta tarta helada con base completa de galletas Oreo negras y relleno cremoso con trozos triturados en cada bocado."
+            },
+            {
+                id: 16,
+                name: "Carlota de Limón",
+                category: "carlotas",
+                price: 18,
+                image: "/home/JG/Descargas/png16",
+                description: "El tradicional postre de la abuela: galletas María congeladas entre capas de crema suave ácida de tres leches y limón."
+            },
+            {
+                id: 17,
+                name: "Carlota de Mango",
+                category: "carlotas",
+                price: 20,
+                image: "/home/JG/Descargas/png17",
+                description: "Variante tropical de la carlota, con crema fría de pulpa de mango dulce y trozos de mango natural en la superficie."
+            },
+            {
+                id: 18,
+                name: "Gelatina Tres Leches",
+                category: "especiales",
+                price: 18,
+                image: "/home/JG/Descargas/png18",
+                description: "Gelatina ultra ultra-cremosa preparada con la combinación tradicional de leche condensada, leche evaporada y crema de leche."
+            },
+            {
+                id: 19,
+                name: "Flan Sin Horno con Caramelo",
+                category: "especiales",
+                price: 18,
+                image: "/home/JG/Descargas/png19",
+                description: "Suave flan de textura sedosa cuajado en frío, bañado en caramelo líquido dorado artesanal."
+            }
+        ];
+
+        // App State
+        let cart = [];
+        let currentSelectedProduct = null;
+        let selectedPortionName = 'Porción';
+        let selectedPortionExtraPrice = 0;
+        let modalQuantity = 1;
+
+        // Init App
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts(products);
+        });
+
+        // Render Product Cards
+        function renderProducts(items) {
+            const grid = document.getElementById('productGrid');
+            const noResults = document.getElementById('noResults');
+
+            if (items.length === 0) {
+                grid.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+            grid.innerHTML = items.map(product => `
+                <div onclick="openProductModal(${product.id})" class="glass-card rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 aesthetic-shadow aesthetic-shadow-hover border border-white/80 flex flex-col justify-between group">
+                    <div>
+                        <!-- Image Container with fallback -->
+                        <div class="relative h-48 sm:h-52 overflow-hidden bg-cream-200">
+                            <img src="${product.image}" alt="${product.name}" 
+                                loading="lazy"
+                                onerror="this.src='https://placehold.co/600x400/F9DDD7/4A342E?text=${encodeURIComponent(product.name)}'"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-choco-900 text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
+                                Bs. ${product.price}
+                            </span>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="p-5">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-rosepastel-600 block mb-1">
+                                ${getCategoryName(product.category)}
+                            </span>
+                            <h3 class="font-serif text-lg sm:text-xl font-bold text-choco-900 group-hover:text-rosepastel-600 transition-colors line-clamp-1">
+                                ${product.name}
+                            </h3>
+                            <p class="text-choco-400 text-xs mt-2 line-clamp-2 font-light leading-relaxed">
+                                ${product.description}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Card Footer -->
+                    <div class="px-5 pb-5 pt-0 flex items-center justify-between">
+                        <span class="text-xs text-choco-700 font-medium group-hover:underline">Ver detalles</span>
+                        <div class="w-8 h-8 rounded-full bg-rosepastel-100 group-hover:bg-rosepastel-600 text-rosepastel-600 group-hover:text-white flex items-center justify-center transition-colors">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getCategoryName(catKey) {
+            const map = {
+                'paves': 'Pavé Frío',
+                'cheesecakes': 'Cheesecake',
+                'mousses': 'Mousse & Suave',
+                'carlotas': 'Carlotas & Pies',
+                'especiales': 'Gelatina / Flan'
+            };
+            return map[catKey] || 'Torta Fría';
+        }
+
+        // Category Filter
+        function filterCategory(category) {
+            // Update active button styling
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if (btn.dataset.category === category) {
+                    btn.className = 'category-btn active px-5 py-2.5 rounded-full text-sm font-medium transition-all whitespace-nowrap bg-choco-900 text-white shadow-md';
+                } else {
+                    btn.className = 'category-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all whitespace-nowrap bg-white text-choco-700 border border-rosepastel-200 hover:border-rosepastel-400';
+                }
+            });
+
+            // Filter logic
+            if (category === 'todos') {
+                renderProducts(products);
+            } else {
+                const filtered = products.filter(p => p.category === category);
+                renderProducts(filtered);
+            }
+        }
+
+        // Search Filter
+        function filterProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filtered = products.filter(p => 
+                p.name.toLowerCase().includes(query) || 
+                p.description.toLowerCase().includes(query)
+            );
+            renderProducts(filtered);
+        }
+
+        function filterProductsMobile() {
+            const query = document.getElementById('searchInputMobile').value.toLowerCase().trim();
+            const filtered = products.filter(p => 
+                p.name.toLowerCase().includes(query) || 
+                p.description.toLowerCase().includes(query)
+            );
+            renderProducts(filtered);
+        }
+
+        // Modal Logic
+        function openProductModal(productId) {
+            currentSelectedProduct = products.find(p => p.id === productId);
+            if (!currentSelectedProduct) return;
+
+            // Reset selection
+            selectedPortionName = 'Porción';
+            selectedPortionExtraPrice = 0;
+            modalQuantity = 1;
+
+            // Update modal text content
+            document.getElementById('modalTitle').innerText = currentSelectedProduct.name;
+            document.getElementById('modalCategory').innerText = getCategoryName(currentSelectedProduct.category);
+            document.getElementById('modalDescription').innerText = currentSelectedProduct.description;
+            document.getElementById('modalImage').src = currentSelectedProduct.image;
+            document.getElementById('modalImage').onerror = function() {
+                this.src = `https://placehold.co/600x400/F9DDD7/4A342E?text=${encodeURIComponent(currentSelectedProduct.name)}`;
+            };
+
+            // Calculate portion prices based on product base price
+            const base = currentSelectedProduct.price;
+            document.getElementById('pricePorcion').innerText = `Bs. ${base}`;
+            document.getElementById('priceMediana').innerText = `Bs. ${base + 15}`;
+            document.getElementById('priceFamiliar').innerText = `Bs. ${base + 35}`;
+
+            // Reset buttons style
+            selectPortion('Porción', 0);
+
+            // Open Modal UI
+            const modal = document.getElementById('productModal');
+            const content = document.getElementById('modalContent');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('productModal');
+            const content = document.getElementById('modalContent');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+        }
+
+        function selectPortion(portionName, extraPrice) {
+            selectedPortionName = portionName;
+            selectedPortionExtraPrice = extraPrice;
+
+            // Update UI buttons
+            const buttons = document.querySelectorAll('.portion-btn');
+            buttons.forEach(btn => {
+                if (btn.innerText.includes(portionName)) {
+                    btn.className = "portion-btn active border-2 border-rosepastel-400 bg-rosepastel-100 text-choco-900 p-2 rounded-xl text-center text-xs font-medium transition-all shadow-sm";
+                } else {
+                    btn.className = "portion-btn border border-rosepastel-200 hover:border-rosepastel-400 p-2 rounded-xl text-center text-xs font-medium transition-all";
+                }
+            });
+
+            updateModalTotalPrice();
+        }
+
+        function updateModalQuantity(change) {
+            modalQuantity = Math.max(1, modalQuantity + change);
+            document.getElementById('modalQuantity').innerText = modalQuantity;
+            updateModalTotalPrice();
+        }
+
+        function updateModalTotalPrice() {
+            if (!currentSelectedProduct) return;
+            const singlePrice = currentSelectedProduct.price + selectedPortionExtraPrice;
+            const total = singlePrice * modalQuantity;
+            document.getElementById('modalTotalPrice').innerText = `Bs. ${total}`;
+        }
+
+        // Cart Drawer Functions
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cartDrawer');
+            const backdrop = document.getElementById('cartBackdrop');
+            const panel = document.getElementById('cartPanel');
+
+            if (drawer.classList.contains('pointer-events-none')) {
+                // Open
+                drawer.classList.remove('pointer-events-none');
+                backdrop.classList.remove('opacity-0');
+                backdrop.classList.add('opacity-100');
+                panel.classList.remove('translate-x-full');
+            } else {
+                // Close
+                backdrop.classList.remove('opacity-100');
+                backdrop.classList.add('opacity-0');
+                panel.classList.add('translate-x-full');
+                setTimeout(() => {
+                    drawer.classList.add('pointer-events-none');
+                }, 300);
+            }
+        }
+
+        function addToCartFromModal() {
+            if (!currentSelectedProduct) return;
+
+            const unitPrice = currentSelectedProduct.price + selectedPortionExtraPrice;
+            const itemKey = `${currentSelectedProduct.id}-${selectedPortionName}`;
+
+            const existingIndex = cart.findIndex(item => item.key === itemKey);
+
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += modalQuantity;
+            } else {
+                cart.push({
+                    key: itemKey,
+                    id: currentSelectedProduct.id,
+                    name: currentSelectedProduct.name,
+                    portion: selectedPortionName,
+                    unitPrice: unitPrice,
+                    quantity: modalQuantity,
+                    image: currentSelectedProduct.image
+                });
+            }
+
+            closeModal();
+            renderCart();
+            showToast(`¡${currentSelectedProduct.name} añadido!`);
+            
+            // Open cart drawer after short delay for better UX
+            setTimeout(() => {
+                toggleCartDrawer();
+            }, 300);
+        }
+
+        function updateCartItemQuantity(key, change) {
+            const index = cart.findIndex(item => item.key === key);
+            if (index > -1) {
+                cart[index].quantity += change;
+                if (cart[index].quantity <= 0) {
+                    cart.splice(index, 1);
+                }
+                renderCart();
+            }
+        }
+
+        function removeCartItem(key) {
+            cart = cart.filter(item => item.key !== key);
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cartItemsContainer');
+            const emptyMsg = document.getElementById('emptyCartMessage');
+            const footer = document.getElementById('cartFooter');
+            const badge = document.getElementById('cartBadge');
+
+            const totalItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+
+            // Update badge
+            if (totalItemsCount > 0) {
+                badge.innerText = totalItemsCount;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            if (cart.length === 0) {
+                container.innerHTML = '';
+                emptyMsg.classList.remove('hidden');
+                footer.classList.add('hidden');
+                return;
+            }
+
+            emptyMsg.classList.add('hidden');
+            footer.classList.remove('hidden');
+
+            let subtotal = 0;
+
+            container.innerHTML = cart.map(item => {
+                const itemTotal = item.unitPrice * item.quantity;
+                subtotal += itemTotal;
+
+                return `
+                    <div class="flex gap-3 bg-cream-50 p-3 rounded-2xl border border-rosepastel-100 items-center">
+                        <img src="${item.image}" alt="${item.name}" 
+                            onerror="this.src='https://placehold.co/100x100/F9DDD7/4A342E?text=FRI-DULCE'"
+                            class="w-16 h-16 rounded-xl object-cover flex-shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-xs text-choco-900 truncate">${item.name}</h4>
+                            <span class="inline-block text-[10px] text-rosepastel-600 bg-rosepastel-100 font-semibold px-2 py-0.5 rounded-full mt-0.5">
+                                ${item.portion}
+                            </span>
+                            <div class="text-xs font-bold text-choco-700 mt-1">
+                                Bs. ${item.unitPrice} <span class="text-[10px] font-normal text-choco-400">c/u</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end gap-1">
+                            <button onclick="removeCartItem('${item.key}')" class="text-xs text-rosepastel-600 hover:text-red-700 p-1">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                            <div class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-lg border border-rosepastel-200">
+                                <button onclick="updateCartItemQuantity('${item.key}', -1)" class="text-xs font-bold text-choco-700 hover:text-rosepastel-600 px-1">-</button>
+                                <span class="text-xs font-bold w-3 text-center">${item.quantity}</span>
+                                <button onclick="updateCartItemQuantity('${item.key}', 1)" class="text-xs font-bold text-choco-700 hover:text-rosepastel-600 px-1">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('cartSubtotal').innerText = `Bs. ${subtotal}`;
+            document.getElementById('cartTotal').innerText = `Bs. ${subtotal}`;
+        }
+
+        // WhatsApp Checkout Integration
+        function sendWhatsAppOrder() {
+            if (cart.length === 0) {
+                alert('Tu carrito está vacío.');
+                return;
+            }
+
+            const name = document.getElementById('custName').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+            const payment = document.getElementById('custPayment').value;
+            const note = document.getElementById('custNote').value.trim();
+
+            if (!name || !address) {
+                alert('Por favor completa tu nombre y dirección de entrega para procesar tu pedido.');
+                return;
+            }
+
+            const phoneNumber = "59163374340"; // Target Phone Number
+
+            let text = `*¡HOLA FRI-DULCE! 🍧 DESEO REALIZAR UN PEDIDO*\n\n`;
+            text += `👤 *Cliente:* ${name}\n`;
+            text += `📍 *Dirección:* ${address}\n`;
+            text += `💳 *Método de Pago:* ${payment}\n`;
+            if (note) {
+                text += `📝 *Notas:* ${note}\n`;
+            }
+            text += `\n*DETALLE DEL PEDIDO:*\n`;
+
+            let total = 0;
+            cart.forEach((item, idx) => {
+                const itemTotal = item.unitPrice * item.quantity;
+                total += itemTotal;
+                text += `${idx + 1}. *${item.name}* [${item.portion}]\n   • Cantidad: ${item.quantity} | Subtotal: Bs. ${itemTotal}\n`;
+            });
+
+            text += `\n💰 *TOTAL A PAGAR: Bs. ${total}*\n\n`;
+            text += `_Enviado desde el catálogo web de FRI-DULCE_`;
+
+            const encodedText = encodeURIComponent(text);
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedText}`;
+
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Toast Feedback
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.innerText = message;
+            toast.classList.remove('opacity-0', 'translate-y-20', 'pointer-events-none');
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-20', 'pointer-events-none');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
